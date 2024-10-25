@@ -17,10 +17,20 @@ def count_chars(text):
         if char in chars:
             chars[char] += 1    
     
-    for char in chars:
-        print(f"The '{char}' character was found {chars[char]} times")
-
     return chars   
+
+def sort_on(dict):
+    return dict["count"]
+
+def dict_to_list(dict):
+    chars_list = []
+
+    for char in dict:
+        chars_list.append({"char": char, "count": dict[char]})
+    
+    chars_list.sort(reverse = True, key = sort_on)
+
+    return chars_list
 
 def main():
     file_contents = ""
@@ -28,9 +38,17 @@ def main():
     with open("./books/frankenstein.txt") as f:
         file_contents = f.read()
 
+    chars = count_chars(file_contents)
+
     print("--- Begin report of books/frankenstein.txt ---")
+    
     print(f"{count_words(file_contents)} words were found in the document \n")
-    count_chars(file_contents)
+    
+    chars_list = dict_to_list(chars)
+
+    for entry in chars_list:
+        print(f"The '{entry['char']}' character was found {entry['count']} times")
+
     print("--- End report ---")
 
 
